@@ -3,7 +3,7 @@ def read_src(src):
     with open(src) as f:
         return f.read()
 
-def recId(src_code, i, code):
+def recId(src_code, i, code, symbols):
     curState = 0
     string = ""
     while i < len(src_code):
@@ -12,7 +12,10 @@ def recId(src_code, i, code):
             curState = 1
             string += x
         elif curState == 1:
-            return code[string] if string in keywords else code['id'], (None if string in keywords else string), i, string
+            if string in keywords:
+                return code[string], None, i, string
+            symbols.append(string)
+            return code['id'], len(symbols)-1, i, string
         else:
             raise Exception('Input error at '+str(i)+'th character '+x)
         i += 1
@@ -102,6 +105,7 @@ def recNum(src_code, i, code):
 def lexAna(src):
     src_code = read_src(src)
     tokens = []
+    symbols = []
     str_units = []
     print(src_code)
 
@@ -115,7 +119,7 @@ def lexAna(src):
         if i < len(src_code) - 1:
             ch_nxt = src_code[i+1]
         if ch in chars:
-            token, value, i, string = recId(src_code, i, code)
+            token, value, i, string = recId(src_code, i, code, symbols)
             str_units.append(string)
         elif ch == '/':
             i, string = delCom(src_code, i)
@@ -124,6 +128,11 @@ def lexAna(src):
         elif ch in digs:
             token, value, i, string = recNum(src_code, i, code)
             str_units.append(string)
+        elif i < len(src_code) - 1 and ch == '+' and ch_nxt == '+':
+            token = code[ch+ch_nxt]
+            value = None
+            i += 2
+            str_units.append('++')
         elif i < len(src_code) - 1 and ch == '=' and ch_nxt == '=':
             token = code[ch+ch_nxt]
             value = None
@@ -144,24 +153,26 @@ def lexAna(src):
             print('encounter illegal character ' + ch + " at " + str(i) + "th character")
             continue
         tokens.append((token, value))
-    return tokens, str_units
+    return tokens, str_units, symbols
 
-def display(str_units, tokens):
+def display(str_units, tokens, symbols):
     for i,token in enumerate(tokens):
         print(str_units[i] + ' ' + ' <' + codeToStr[token[0]] + ' ' +
-              ('---' if token[1] is None else str(token[1])) + '>')
+              ('---' if token[1] is None else str(token[1]) if token[0] != 1 else symbols[token[1]]) + '>')
 
 
 keywords = ["int", "float", "bool","struct", "if", "else","do", "while"]
 code = {'id': 1, 'int': 2, 'float': 3, 'bool': 4, 'struct': 5, 'if': 6, 'else':7,
         'do': 8, 'while': 9, '+': 10, '*': 11, '==': 12, '!=': 13, '=': 14, ';': 15,
-        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21}
+        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21, '++':22}
 codeToStr = ['', 'IDN', 'INT', 'FLOAT', 'BOOL', 'STRUCT', 'IF', 'ELSE', 'DO', 'WHILE',
-             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst']
+             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst', 'INC']
 chars = [chr(ord('a')+x) for x in range(26)] + [chr(ord('A')+x) for x in range(26)] \
         + ['_']
 digs = [chr(ord('0')+x) for x in range(10)]
 others = ['+','*','=','!',';','(',')','{','}','-','/']
 if __name__ == "__main__":
-    tokens, str_units = lexAna("./src.txt")
-    display(str_units, tokens)
+    tokens, str_units, symbols = lexAna("./src.txt")
+    display(str_units, tokens, symbols)
+    print(tokens)
+    print(symbols)
