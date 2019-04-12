@@ -14,8 +14,12 @@ def recId(src_code, i, code, symbols):
         elif curState == 1:
             if string in keywords:
                 return code[string], None, i, string
-            symbols.append(string)
-            return code['id'], len(symbols)-1, i, string
+            if string in symbols:
+                pos = symbols.index(string)
+            else:
+                symbols.append(string)
+                pos = len(symbols) - 1
+            return code['id'], pos, i, string
         else:
             raise Exception('Input error at '+str(i)+'th character '+x)
         i += 1
