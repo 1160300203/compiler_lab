@@ -3,28 +3,30 @@ def read_src(src):
     with open(src) as f:
         return f.read()
 
-def recId(src_code, i, code, symbols):
+def recId(src_code, i, code, symbols, lines):
     curState = 0
     string = ""
     while i < len(src_code):
         x = src_code[i]
+        if x == '\n':
+            lines += 1
         if curState == 0 and x in chars or curState == 1 and x in chars+digs:
             curState = 1
             string += x
         elif curState == 1:
             if string in keywords:
-                return code[string], None, i, string
+                return code[string], None, i, string, lines
             if string in symbols:
                 pos = symbols.index(string)
             else:
                 symbols.append(string)
                 pos = len(symbols) - 1
-            return code['id'], pos, i, string
+            return code['id'], pos, i, string, lines
         else:
             raise Exception('Input error at '+str(i)+'th character '+x)
         i += 1
 
-def delCom(src_code, i):
+def delCom(src_code, i, lines):
     curState = 0
     string = ''
     while i < len(src_code):
@@ -34,22 +36,26 @@ def delCom(src_code, i):
         elif curState == 1 and x == '*':
             curState = 2
         elif curState == 2 and x != '*':
+            if x == '\n':
+                lines += 1
             curState = 2
         elif curState == 2 and x == '*':
             curState = 3
         elif curState == 3 and x == '*':
             curState = 3
         elif curState == 3 and x != '/':
+            if x == '\n':
+                lines += 1
             curState = 2
         elif curState == 3 and x == '/':
             string += x
-            return i+1, string
+            return i+1, string, lines
         else:
             raise Exception('Input error at '+str(i)+'th character '+x)
         string += x
         i += 1
 
-def recNum(src_code, i, code):
+def recNum(src_code, i, code, lines):
     string = ''
     curState = 0
     value = 0
@@ -59,6 +65,8 @@ def recNum(src_code, i, code):
     exp_sign = 1
     while i < len(src_code):
         x = src_code[i]
+        if x == '\n':
+            lines += 1
         v = ord(x) - ord('0')
         if curState == 0 and x in digs:
             curState = 1
@@ -96,11 +104,11 @@ def recNum(src_code, i, code):
         else:
             if curState == 1:
                 token = code['iConst']
-                return token, value, i, string
+                return token, value, i, string, lines
             elif curState == 3 or curState == 6:
                 token = code['fConst']
                 value = pow(10, exp*exp_sign) * value
-                return token, value, i, string
+                return token, value, i, string, lines
             else:
                 raise Exception('Input error at '+str(i)+'th character '+x)
         string += x
@@ -111,6 +119,8 @@ def lexAna(src):
     tokens = []
     symbols = []
     str_units = []
+    lines = 1
+    lines_idx = []
     print(src_code)
 
     i = 0
@@ -118,19 +128,21 @@ def lexAna(src):
         ch = src_code[i]
         # print(i,ch)
         if ch not in chars + digs + others:
+            if ch == '\n':
+                lines += 1
             i += 1
             continue
         if i < len(src_code) - 1:
             ch_nxt = src_code[i+1]
         if ch in chars:
-            token, value, i, string = recId(src_code, i, code, symbols)
+            token, value, i, string, lines = recId(src_code, i, code, symbols, lines)
             str_units.append(string)
         elif ch == '/':
-            i, string = delCom(src_code, i)
+            i, string, lines = delCom(src_code, i, lines)
             #str_units.append(string)
             continue
         elif ch in digs:
-            token, value, i, string = recNum(src_code, i, code)
+            token, value, i, string, lines = recNum(src_code, i, code, lines)
             str_units.append(string)
         elif i < len(src_code) - 1 and ch == '+' and ch_nxt == '+':
             token = code[ch+ch_nxt]
@@ -156,8 +168,10 @@ def lexAna(src):
             i += 1
             print('encounter illegal character ' + ch + " at " + str(i) + "th character")
             continue
+
+        lines_idx.append(lines)
         tokens.append((token, value))
-    return tokens, str_units, symbols
+    return tokens, str_units, symbols, lines_idx
 
 def display(str_units, tokens, symbols):
     for i,token in enumerate(tokens):
@@ -165,18 +179,18 @@ def display(str_units, tokens, symbols):
               ('---' if token[1] is None else str(token[1]) if token[0] != 1 else symbols[token[1]]) + '>')
 
 
-keywords = ["int", "float", "bool","struct", "if", "else","do", "while"]
+keywords = ["int", "float", "bool","struct", "if", "else","do", "while", "then", "true", "false"]
 code = {'id': 1, 'int': 2, 'float': 3, 'bool': 4, 'struct': 5, 'if': 6, 'else':7,
         'do': 8, 'while': 9, '+': 10, '*': 11, '==': 12, '!=': 13, '=': 14, ';': 15,
-        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21, '++':22}
+        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21, '++':22, "then":23, "true":24, "false":25}
 codeToStr = ['', 'IDN', 'INT', 'FLOAT', 'BOOL', 'STRUCT', 'IF', 'ELSE', 'DO', 'WHILE',
-             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst', 'INC']
+             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst', 'INC', "THEN", "TRUE", "FALSE"]
 chars = [chr(ord('a')+x) for x in range(26)] + [chr(ord('A')+x) for x in range(26)] \
         + ['_']
 digs = [chr(ord('0')+x) for x in range(10)]
 others = ['+','*','=','!',';','(',')','{','}','-','/']
 if __name__ == "__main__":
-    tokens, str_units, symbols = lexAna("./src.txt")
+    tokens, str_units, symbols, lines, lines_idx = lexAna("./src.txt")
     display(str_units, tokens, symbols)
     print(tokens)
     print(symbols)

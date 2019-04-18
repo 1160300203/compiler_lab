@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19fd4a33-98fd-4893-ba0b-97a63a6f5d98" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grammer.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grammer_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/lex_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,10 +18,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
+        <entry file="file://$PROJECT_DIR$/grammer_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+            <state relative-caret-position="456">
+              <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lex_analysis.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="283">
+              <caret line="186" column="132" selection-start-line="186" selection-start-column="132" selection-end-line="186" selection-end-column="132" />
             </state>
           </provider>
         </entry>
@@ -24,8 +38,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+            <state relative-caret-position="493">
+              <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammer.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="17" column="38" lean-forward="true" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -46,8 +69,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/DFA.py" />
-        <option value="$PROJECT_DIR$/src.txt" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/grammer.txt" />
+        <option value="$PROJECT_DIR$/grammer_analysis.py" />
+        <option value="$PROJECT_DIR$/src.txt" />
+        <option value="$PROJECT_DIR$/lex_analysis.py" />
       </list>
     </option>
   </component>
@@ -91,7 +117,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.grammer_analysis">
+    <configuration name="grammer_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="compiler_lab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/grammer_analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="compiler_lab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -104,7 +151,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lex_analysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -115,6 +162,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.grammer_analysis" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -124,13 +172,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="990" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19409283" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.6193694" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22522523" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -138,7 +185,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Educational.CheckDetails" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32995495" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -152,17 +199,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src.txt">
+    <entry file="file://$PROJECT_DIR$/lex_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        <state relative-caret-position="207">
+          <caret line="170" column="77" selection-start-line="170" selection-start-column="77" selection-end-line="170" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/grammer.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+        <state relative-caret-position="232">
+          <caret line="17" column="38" lean-forward="true" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lex_analysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="186" column="132" selection-start-line="186" selection-start-column="132" selection-end-line="186" selection-end-column="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammer_analysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
         </state>
       </provider>
     </entry>
