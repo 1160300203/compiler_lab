@@ -1,27 +1,29 @@
-V: <S>, <states>, <Type>, <E>, <T>, <B>, <rop>, <dec>, <ass>, <cond>, <loop>, <num>
-T: <id>, <boolid>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>, <then>, <else>, <{>, <}>, <do>, <while>, <;>, <!>, <&&>, <||>, <true>, <false>, <==>, <!=>, <>=>, <<=>, <>>, <<>, <iConst>, <fConst>
+V: <S>, <states>, <Type>, <ArrayDec>, <E>, <T>, <B>, <rop>, <dec>, <ass>, <cond>, <loop>, <num>, <func>, <args>
+T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>, <then>, <else>, <{>, <}>, <do>, <while>, <;>, <!>, <&&>, <||>, <true>, <false>, <==>, <!=>, <>=>, <<=>, <>>, <<>, <iConst>, <fConst>
 
 <S> -> <states>
+<ArrayDec> -> <Type> <id> <[> <iConst> <]> <;>
 <dec> -> <Type> <id> <;>
-<dec> -> <bool> <boolid> <;>
 <Type> -> <int>
 <Type> -> <float>
 <ass> -> <id> <=> <E> <;>
-<E> -> <T> <+> <E>
+<ass> -> <id> <[> <iConst> <]> <=> <E> <;>
+<E> -> <E> <+> <T>
 <E> -> <T>
-<T> -> <num> <*> <T>
-<T> -> <id> <*> <T>
-<T> -> <(> <E> <)> <*> <T>
+<T> -> <T> <*> <num>
+<T> -> <T> <*> <id>
+<T> -> <T> <*> <(> <E> <)>
 <T> -> <(> <E> <)>
 <T> -> <num>
 <T> -> <id>
 <cond> -> <if> <(> <B> <)> <then> <{> <states> <}> <else> <{> <states> <}>
 <loop> -> <do> <{> <states> <}> <while> <(> <B> <)> <;>
+<loop> -> <for> <(> <B> <)> <{> <states> <}>
+<loop> -> <while> <(> <B> <)> <{> <states> <}>
 <B> -> <E> <rop> <E>
 <B> -> <!> <B>
 <B> -> <E> <rop> <E> <&&> <B>
 <B> -> <E> <rop> <E> <||> <B>
-<B> -> <boolid>
 <B> -> <true>
 <B> -> <false>
 <rop> -> <==>
@@ -30,13 +32,20 @@ T: <id>, <boolid>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>, <then>
 <rop> -> <<=>
 <rop> -> <>>
 <rop> -> <<>
+<func> -> <Type> <id> <(> <)> <{> <states> <}>
+<func> -> <Type> <id> <(> <args> <)> <{> <states> <}>
+<args> -> <id>
 <states> -> <states> <dec>
 <states> -> <states> <ass>
 <states> -> <states> <cond>
 <states> -> <states> <loop>
+<states> -> <states> <func>
+<states> -> <states> <ArrayDec>
 <states> -> <dec>
 <states> -> <ass>
 <states> -> <cond>
 <states> -> <loop>
+<states> -> <func>
+<states> -> <ArrayDec>
 <num> -> <iConst>
 <num> -> <fConst>

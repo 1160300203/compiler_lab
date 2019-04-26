@@ -159,7 +159,7 @@ def lexAna(src):
             value = None
             i += 2
             str_units.append('!=')
-        elif ch in "+*=;(){}":
+        elif ch in "+*=;(){}[]":
             token = code[ch]
             value = None
             i += 1
@@ -179,16 +179,16 @@ def display(str_units, tokens, symbols):
               ('---' if token[1] is None else str(token[1]) if token[0] != 1 else symbols[token[1]]) + '>')
 
 
-keywords = ["int", "float", "bool","struct", "if", "else","do", "while", "then", "true", "false"]
+keywords = ["int", "float", "bool","struct", "if", "else","do", "while", "then", "true", "false", "for", "func"]
 code = {'id': 1, 'int': 2, 'float': 3, 'bool': 4, 'struct': 5, 'if': 6, 'else':7,
         'do': 8, 'while': 9, '+': 10, '*': 11, '==': 12, '!=': 13, '=': 14, ';': 15,
-        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21, '++':22, "then":23, "true":24, "false":25}
+        '(': 16, ')': 17, '{': 18, '}': 19, 'iConst':20, 'fConst':21, '++':22, "then":23, "true":24, "false":25, "for":26, "func": 27, '[':28, ']':29}
 codeToStr = ['', 'IDN', 'INT', 'FLOAT', 'BOOL', 'STRUCT', 'IF', 'ELSE', 'DO', 'WHILE',
-             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst', 'INC', "THEN", "TRUE", "FALSE"]
+             'ADD', 'MUL', 'EQ', 'NE', 'ASSIGN', 'SEMI', 'SLP', 'SRP', 'LP', 'RP', 'iConst', 'fConst', 'INC', "THEN", "TRUE", "FALSE", "FOR", "FUNC", "LMP", "RMP"]
 chars = [chr(ord('a')+x) for x in range(26)] + [chr(ord('A')+x) for x in range(26)] \
         + ['_']
 digs = [chr(ord('0')+x) for x in range(10)]
-others = ['+','*','=','!',';','(',')','{','}','-','/']
+others = ['+','*','=','!',';','(',')','{','}','-','/','[',']']
 if __name__ == "__main__":
     tokens, str_units, symbols, lines, lines_idx = lexAna("./src.txt")
     display(str_units, tokens, symbols)

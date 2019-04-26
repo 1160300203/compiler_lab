@@ -1,18 +1,15 @@
-int x;
-int y;
-int z;
-x = 1.5e+9;
-y = 3.1415;
-z = x + y;
-if(x==y)then{
-    z = x + z;
-}else{
+int a;
+a = 3*3;
+a = 8 + (46+a+1) * 2 + 6;
+if(a == 2)then{
     int t;
-    t = z;
+    t = 1;
+}else{
+    float b;
+    b = 2;
 }
 do{
-float m;
-m =x+y*z;
-float t;
-t= y+x*z;
-}while(true);
+    int p;
+    p = 4*p+8;
+}while(p==100);
+a = 8*a;

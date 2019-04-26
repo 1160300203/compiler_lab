@@ -104,11 +104,13 @@ def build_item_sets(P, V_to_prods):
         p += 1
 
     # for i, item_set in enumerate(item_sets):
-    #     print("No.",i)
-    #     items = item_set.krn_items + item_set.non_krn_items
-    #     for item in items:
-    #         print(item, P[item[0]])
-    #     print(item_set.getNextSymbs())
+    #     # items = item_set.krn_items + item_set.non_krn_items
+    #     # for item in items:
+    #     #     print(item, P[item[0]])
+    #     if len(item_set.krn_items) > 1:
+    #         print("No.",i)
+    #         print(len(item_set.krn_items))
+    #     # print(item_set.getNextSymbs())
     # input()
 
     return item_sets, goto
@@ -191,8 +193,7 @@ def build_follow(P, V_to_prods_idx, V, T):
 
     return follow
 
-def grm_trans(grammer_file):
-    V, T, P = read(grammer_file)
+def grm_trans(V, T, P):
     V_to_prods = {}
     for i, p in enumerate(P):
         v = p[0]
@@ -245,7 +246,8 @@ def analyze(action, goto, token_seq, P, lines_idx):
             raise Exception("Error when handling '"+token+"' at "+str(lines_idx[i])+"th Line")
 
 if __name__ == '__main__':
-    action, goto, P = grm_trans('grammer.txt')
+    V, T, P = read('grammer.txt')
+    action, goto, P = grm_trans(V, T, P)
     token_seq, str_units, symbols, lines_idx = lexAna('src.txt')
     code_to_str = {code[x]:x for x in code}
     token_seq = [code_to_str[x[0]] for x in token_seq]
