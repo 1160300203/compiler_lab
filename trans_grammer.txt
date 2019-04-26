@@ -2,12 +2,12 @@ V: <S>, <states>, <Type>, <ArrayDec>, <E>, <T>, <B>, <rop>, <dec>, <ass>, <cond>
 T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>, <then>, <else>, <{>, <}>, <do>, <while>, <;>, <!>, <&&>, <||>, <true>, <false>, <==>, <!=>, <>=>, <<=>, <>>, <<>, <iConst>, <fConst>
 
 <S> -> <states> {s_act}
-<ArrayDec> -> <Type> <id> <[> <iConst> <]> <;>
+<ArrayDec> -> <Type> <id> <[> <iConst> <]> <;> {dec_array_act}
 <dec> -> <Type> <id> <;> {dec_act}
 <Type> -> <int> {type_act_int}
 <Type> -> <float> {type_act_float}
 <ass> -> <id> <=> <E> <;> {ass_act}
-<ass> -> <id> <[> <iConst> <]> <=> <E> <;>
+<ass> -> <id> <[> <iConst> <]> <=> <E> <;> {ass_array_act}
 <E> -> <E> <+> <T> {add_act}
 <E> -> <T> {transfer_attr_act}
 <T> -> <T> <*> <num> {mul_act_num}
@@ -40,7 +40,7 @@ T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>,
 <states> -> <states> {count_instrs} <cond> {states_cond_act}
 <states> -> <states> {count_instrs} <loop> {states_loop_act}
 <states> -> <states> <func>
-<states> -> <states> <ArrayDec>
+<states> -> <states> {count_instrs} <ArrayDec> {states_dec_array_act}
 <states> -> <dec> {states_sg_dec_act}
 <states> -> {count_sg_instr} <ass> {states_sg_ass_act}
 <states> -> {count_sg_instr} <cond> {states_sg_cond_act}

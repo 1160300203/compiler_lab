@@ -65,6 +65,8 @@ class Func:
         tree.setAtt('type', 'float')
 
     def ass_act(self, tree, idx, i):
+        if symbols[tree.childs[0].name[1]] not in sym_tbl.symbols:
+            raise Exception("变量名未声明")
         ss = [] if not tree.childs[2].haveSetAtt('code') else tree.childs[2].attrs['code']
         prev_count = tree.attrs['count']
         s = []
@@ -104,6 +106,8 @@ class Func:
         tree.setAtt('val', temp)
 
     def mul_act_var(self, tree, idx, i):
+        if symbols[tree.childs[2].name[1]] not in sym_tbl.symbols:
+            raise Exception("变量名未声明")
         temp = helper.newTemp()
         s = []
         if tree.childs[0].haveSetAtt('code'):
@@ -135,6 +139,8 @@ class Func:
         tree.setAtt('val', str(tree.childs[0].attrs['val']))
 
     def var_act(self, tree, idx, i):
+        if symbols[tree.childs[0].name[1]] not in sym_tbl.symbols:
+            raise Exception("变量名未声明")
         tree.setAtt('val', symbols[tree.childs[0].name[1]])
 
     def states_dec_act(self, tree, idx, i):
@@ -203,11 +209,11 @@ class Func:
         s = []
         ss = tree.childs[2].attrs['code']
         for x in ss:
-            s.append((prev_count+1, x))
+            s.append((prev_count+1, x[1]))
             prev_count += 1
         ss = tree.childs[6].attrs['code']
         for x in ss:
-            s.append((prev_count+1, x))
+            s.append((prev_count+1, x[1]))
             prev_count += 1
         type = tree.childs[6].attrs['type']
         s.append((prev_count+1,('j'+type, tree.childs[6].attrs['val'][0], tree.childs[6].attrs['val'][1], str(l1))))
@@ -262,6 +268,40 @@ class Func:
         for x in tree.childs[1].attrs['code']:
             s.append(x)
         tree.setAtt('code', s)
+        tree.setAtt('count', tree.childs[1].attrs['count'])
+
+    def dec_array_act(self, tree, idx, i):
+        id = symbols[tree.childs[1].name[1]]
+        if id in sym_tbl.symbols:
+            raise Exception("重复声明变量")
+        type = tree.childs[0].attrs['type']
+        size = sizes[type] * tree.childs[3].name[1]
+        startloc = sym_tbl.offset
+        sym_tbl.offset += size
+        sym_tbl.addId(id, type+'[]', size, startloc)
+        tree.setAtt('count', 0)
+
+    def ass_array_act(self, tree, idx, i):
+        if symbols[tree.childs[0].name[1]] not in sym_tbl.symbols:
+            raise Exception("变量名未声明")
+        ss = [] if not tree.childs[5].haveSetAtt('code') else tree.childs[5].attrs['code']
+        prev_count = tree.attrs['count']
+        s = []
+        for x in ss:
+            s.append((prev_count+1, x))
+            prev_count += 1
+        pos = tree.childs[2].name[1]
+        id = symbols[tree.childs[0].name[1]]
+        type = sym_tbl.symbols[id][0]
+        if (pos+1) * sizes[type[:len(type)-2]] > sym_tbl.symbols[id][1]:
+            raise Exception("数组越界")
+        s.append((prev_count+1, ('=', tree.childs[5].attrs['val'], '-', symbols[tree.childs[0].name[1]]+'['+str(tree.childs[2].name[1])+']')))
+        tree.setAtt('count', prev_count+1)
+        tree.setAtt('code', s)
+
+    def states_dec_array_act(self, tree, idx, i):
+        if tree.childs[0].haveSetAtt('code'):
+            tree.setAtt('code', tree.childs[0].attrs['code'])
         tree.setAtt('count', tree.childs[1].attrs['count'])
 
 def read(grammer_file):
@@ -337,6 +377,7 @@ def trans(tree, Z):
         if i+2 in Z[idx]:
             getattr(func, Z[idx][i+2])(tree, idx, i)
 
+
 helper = Helper()
 sym_tbl = SymTbl()
 func = Func()
@@ -350,5 +391,9 @@ if __name__ == '__main__':
     token_seq = [(code_to_str[x[0]],x[1]) for x in token_seq]
     tree = analyze(action, goto, token_seq, P, lines_idx, Z)
     trans(tree, Z)
-    print(tree.attrs['code'] if tree.haveSetAtt('code') else 'e')
+    # print(tree.attrs['code'] if tree.haveSetAtt('code') else 'e')
+    for code in tree.attrs['code']:
+        print(code)
+    print(symbols)
+    print(sym_tbl.symbols)
 
