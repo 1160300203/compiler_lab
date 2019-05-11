@@ -16,6 +16,7 @@ T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>,
 <T> -> <(> <E> <)>
 <T> -> <num>
 <T> -> <id>
+<T> -> <id> <[> <iConst> <]>
 <cond> -> <if> <(> <B> <)> <then> <{> <states> <}> <else> <{> <states> <}>
 <loop> -> <do> <{> <states> <}> <while> <(> <B> <)> <;>
 <loop> -> <for> <(> <B> <)> <{> <states> <}>

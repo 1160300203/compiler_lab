@@ -16,6 +16,7 @@ T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>,
 <T> -> <(> <E> <)> {unit_act}
 <T> -> <num> {num_act}
 <T> -> <id> {var_act}
+<T> -> <id> <[> <iConst> <]> {array_act}
 <cond> -> <if> <(> <B> <)> <then> <{> <states> <}> <else> <{> <states> <}> {cond_act}
 <loop> -> <do> <{> <states> <}> <while> <(> <B> <)> <;> {loop_dw_act}
 <loop> -> <for> <(> <B> <)> <{> <states> <}>
@@ -46,6 +47,6 @@ T: <id>, <for>, <[>, <]>, <int>, <float>, <bool>, <=>, <+>, <*>, <(>, <)>, <if>,
 <states> -> {count_sg_instr} <cond> {states_sg_cond_act}
 <states> -> {count_sg_instr} <loop> {states_sg_loop_act}
 <states> -> <func>
-<states> -> <ArrayDec>
+<states> -> <ArrayDec> {states_sg_array_dec_act}
 <num> -> <iConst> {const_act}
 <num> -> <fConst> {const_act}

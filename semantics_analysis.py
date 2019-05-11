@@ -68,7 +68,7 @@ class Func:
         if symbols[tree.childs[0].name[1]] not in sym_tbl.symbols:
             raise Exception("变量名未声明")
         ss = [] if not tree.childs[2].haveSetAtt('code') else tree.childs[2].attrs['code']
-        prev_count = tree.attrs['count']
+        prev_count = tree.attrs['count'] if tree.attrs is not None else 0
         s = []
         for x in ss:
             s.append((prev_count+1, x))
@@ -137,6 +137,19 @@ class Func:
 
     def num_act(self, tree, idx, i):
         tree.setAtt('val', str(tree.childs[0].attrs['val']))
+
+    def array_act(self, tree, idx, i):
+        var = helper.newTemp()
+        tree.setAtt('val', var)
+        id = symbols[tree.childs[0].name[1]]
+        if id not in sym_tbl.symbols:
+            raise Exception("变量名未声明")
+        pos = tree.childs[2].name[1]
+        id = symbols[tree.childs[0].name[1]]
+        type = sym_tbl.symbols[id][0]
+        if (pos+1) * sizes[type[:len(type)-2]] > sym_tbl.symbols[id][1]:
+            raise Exception("数组越界")
+        tree.setAtt('code', [('ld', id, tree.childs[2].name[1], var)])
 
     def var_act(self, tree, idx, i):
         if symbols[tree.childs[0].name[1]] not in sym_tbl.symbols:
@@ -299,10 +312,13 @@ class Func:
         tree.setAtt('count', prev_count+1)
         tree.setAtt('code', s)
 
+    def states_sg_array_dec_act(self, tree, idx, i):
+        tree.setAtt('count', 0)
+
     def states_dec_array_act(self, tree, idx, i):
         if tree.childs[0].haveSetAtt('code'):
             tree.setAtt('code', tree.childs[0].attrs['code'])
-        tree.setAtt('count', tree.childs[1].attrs['count'])
+        tree.setAtt('count', tree.childs[0].attrs['count'])
 
 def read(grammer_file):
     with open(grammer_file) as f:
@@ -367,7 +383,7 @@ def analyze(action, goto, token_seq, P, lines_idx, Z):
             raise Exception("Error when handling '"+token+"' at "+str(lines_idx[i])+"th Line")
 
 def trans(tree, Z):
-    if tree.prod_idx is None:
+    if tree.prod_idx is None: #终端结点
         print(tree.name)
         return
     idx = tree.prod_idx
